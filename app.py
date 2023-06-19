@@ -219,6 +219,7 @@ def inscrire():
         return redirect(url_for('login'))
     return render_template('inscriptionCantine.html', existe_pas=existe_pas, Present=Present)
 
+###
 @app.route('/confirmer', methods=['GET','POST'])
 def confirmer():
     if request.method == 'POST':
