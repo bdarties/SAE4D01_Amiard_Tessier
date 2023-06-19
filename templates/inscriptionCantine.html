@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.108.0">
+  <title>Inscription Cantine</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <style>
+    .form-check-input:checked {
+      background-color: #085e51;
+      border: none;
+    }
+
+    .form-check-input:checked:focus {
+      box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(0, 255, 0, 0.25)
+    }
+
+    .form-check-input:focus {
+      box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(0, 255, 0, 0.25);
+
+    }
+  </style>
+</head>
+<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom"
+  style="background: linear-gradient(#6FCDBD, #70E0B1); color: #0E574B;">
+  <a href="/" class="d-flex align-items-center mb-3 pr-4 mb-md-0 me-md-auto text-dark text-decoration-none">
+    <svg class="bi me-2" width="40" height="32">
+      <use xlink:href="#bootstrap"></use>
+    </svg>
+    <span class="fs-4 mr-4"><img src="{{url_for('static', filename='logo.png')}}" STYLE='max-height: 30px'
+        class="mr-4" /></span>
+  </a>
+
+  <ul class="nav nav-pills">
+    <li class="nav-item"><a href="{{url_for('home')}}" class="nav-link"
+        style="color: #0E574B;font-weight: bold; transition: color 0.2s ease-in;"
+        onmouseover="this.style.color='#248f7d'" onmouseout="this.style.color='#0E574B'">Accueil</a></li>
+    <li class="nav-item"><a href="{{url_for('inscrire')}}" class="nav-link"
+        style="color: #0E574B;font-weight: bold; transition: color 0.2s ease-in;"
+        onmouseover="this.style.color='#248f7d'" onmouseout="this.style.color='#0E574B'">Inscription à la cantine</a>
+    </li>
+    <li class="nav-item"><a href="{{url_for('calendrier')}}" class="nav-link" style="color: #0E574B;font-weight: bold; transition: color 0.2s ease-in;" onmouseover="this.style.color='#248f7d'" onmouseout="this.style.color='#0E574B'">Calendrier</a></li>
+
+    {% if session.get('logged_in') %}
+    <li class="nav-item"><a href="{{url_for('logout')}}" class="nav-link"
+        style="color: #0E574B;font-weight: bold; transition: color 0.2s ease-in;"
+        onmouseover="this.style.color='#248f7d'" onmouseout="this.style.color='#0E574B'">Se déconnecter</a></li>
+    {% else %}
+    <li class="nav-item"><a href="{{url_for('login')}}" class="nav-link"
+        style="color: #0E574B;font-weight: bold; transition: color 0.2s ease-in;"
+        onmouseover="this.style.color='#248f7d'" onmouseout="this.style.color='#0E574B'">Se connecter</a></li>
+    {% endif %}
+  </ul>
+</header>
+
+<body class="bg-light">
+
+  <div class="container">
+    <main>
+      <div class="py-5 text-center">
+
+        <div class="d-flex justify-content-center">
+          <img src="{{url_for('static', filename='pizza.png')}}" class="mr-4" />
+          <h1 style="margin: 0 20px;color: #0E574B;font-weight: bold;">Inscrire mon enfant à la cantine</h1><img
+            src="{{url_for('static', filename='pizza.png')}}" class="mr-4" />
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+
+        <div class="col-md-7 col-lg-8">
+
+          <form class="needs-validation" method='post' novalidate>
+            <div>
+              <h5 style="color: #074037;">Nom & Prénom de l'enfant</h5>
+              <div class="row g-3 mb-4">
+                <!-- champ nom -->
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="lastName" placeholder="Nom" name="nom" required>
+                  <div class="invalid-feedback">
+                    Vous n'avez pas indiqué de Nom.
+                  </div>
+                </div>
+
+                <!-- champ prénom -->
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="firstName" placeholder="Prénom" name="prenom" required>
+                  <div class="invalid-feedback">
+                    Vous n'avez pas indiqué de Prénom.
+                  </div>
+                </div>
+              </div>
+
+              <h5 style="color: #074037;">Niveau & Classe de l'enfant</h5>
+              <div class='row g-3 mb-4'>
+                <!-- champ niveau -->
+                <div class="col-sm-6">
+                  <select class="form-select" id="niveau" name='niveauScolaire' required>
+                    <option value="">Sélectionnez un niveau</option>
+                    <option value="primaire">Primaire</option>
+                    <option value="maternelle">Maternelle</option>
+                  </select>
+                </div>
+                <!-- champ classe -->
+                <div class="col-sm-6">
+                  <select class="form-select" id="classe" name='classe' required>
+                    <option value="">Sélectionnez une classe</option>
+                    <option value="TPS">TPS</option>
+                    <option value="PS">PS</option>
+                    <option value="MS">MS</option>
+                    <option value="GS">GS</option>
+                    <option value="CP">CP</option>
+                    <option value="CE1">CE1</option>
+                    <option value="CE2">CE2</option>
+                    <option value="CM1">CM1</option>
+                    <option value="CM2">CM2</option>
+                  </select>
+                </div>
+              </div>
+
+              <h5 style="color: #074037;">Régime alimentaire de l'enfant</h5>
+              <div class='row g-3 mb-4'>
+                <!-- champ régime -->
+                <div class="col-sm-6">
+                  <select class="form-select" id="regimeAlimentaire" name='regimeAlimentaire' required>
+                    <option value="">Sélectionnez un régime</option>
+                    <option value="Classique">Classique</option>
+                    <option value="Sans porc">Sans porc</option>
+                    <option value="Sans viande">Sans viande</option>
+                    <option value="végétarien">Végétarien</option>
+                    <option value="PAI (allergies)">Allergies</option>
+                  </select>
+                </div>
+              </div>
+
+              <h5 style="color: #074037;">Jours de repas par semaine / à l'année</h4>
+
+                <div class="my-3 mb-2 d-flex flex-wrap">
+                  <!-- champs jours de repas / semaine / an-->
+                  <div class="form-check" style="margin: 0 20px">
+                    <input id="lundi" name="lundi" type="checkbox" class="form-check-input">
+                    <label class="form-check-label" for="lundi">Lundi</label>
+                  </div>
+                  <div class="form-check" style="margin: 0 20px">
+                    <input id="mardi" name="mardi" type="checkbox" class="form-check-input">
+                    <label class="form-check-label" for="mardi">Mardi</label>
+                  </div>
+
+                  <div class="form-check" style="margin: 0 20px">
+                    <input id="jeudi" name="jeudi" type="checkbox" class="form-check-input">
+                    <label class="form-check-label" for="jeudi">Jeudi</label>
+                  </div>
+                  <div class="form-check" style="margin: 0 20px">
+                    <input id="vendredi" name="vendredi" type="checkbox" class="form-check-input">
+                    <label class="form-check-label" for="vendredi">Vendredi</label>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button class="w-40 mt-5 btn btn-primary btn-lg" style='background: #0b493b;border:none'
+                    onmouseover="this.style.background='#248f7d'" onmouseout="this.style.background='#0b493b'"
+                    type="submit">Inscrire mon enfant</button>
+                </div>
+          </form>
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+              <p>{{ message }}<p>
+              {% endfor %}
+          {% endif %}
+          {% endwith %}
+
+          {% if existe_pas == False %}
+          <p>Votre enfant est déjà enregistré sur un autre compte, voulez-vous l'ajouter à vos enfants inscrits?</p>
+          <form action="/confirmer" method="post">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="box" name="box">
+              <label class="form-check-label" for="inlineCheckbox2">Ajouter un enfant</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary mb-2" id="btn">Actualiser</button>
+
+          </form>
+          
+          {% endif %}
+
+
+          {% if Present == True %}
+          <p>Votre enfant est déjà inscrit.</p>
+
+          {% endif %}
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+      <p class="mb-1">&copy; 2023 - Cantine </p>
+      <ul class="list-inline">
+        <li class="list-inline-item"><a href="#" style="color: #0E574B;">Privacy</a></li>
+        <li class="list-inline-item"><a href="#" style="color: #0E574B;">Terms</a></li>
+        <li class="list-inline-item"><a href="#" style="color: #0E574B;">Support</a></li>
+      </ul>
+    </footer>
+  </div>
+  <img src="{{url_for('static',filename='inscription2.png')}}"
+    style="position: fixed; bottom: 0; right: 0; max-height:100%; z-index: -1" />
+
+
+  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('niveau').addEventListener('change', function () {
+      var niveauVal = this.value;
+      var classeOptions = document.getElementById('classe').options;
+      for (var i = 0; i < classeOptions.length; i++) {
+        if (niveauVal == 'primaire') {
+          if (classeOptions[i].value == "TPS" || classeOptions[i].value == "PS" || classeOptions[i].value == "MS" || classeOptions[i].value == "GS") {
+            classeOptions[i].style.display = 'none';
+          } else {
+            classeOptions[i].style.display = 'block';
+          }
+        } else if (niveauVal == 'maternelle') {
+          if (classeOptions[i].value == "CP" || classeOptions[i].value == "CE1" || classeOptions[i].value == "CE2" || classeOptions[i].value == "CM1" || classeOptions[i].value == "CM2") {
+            classeOptions[i].style.display = 'none';
+          } else {
+            classeOptions[i].style.display = 'block';
+          }
+        }
+      }
+    });
+
+    (() => {
+      'use strict'
+
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.querySelectorAll('.needs-validation')
+
+      // Loop over them and prevent submission
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+    })
+
+  </script>
+
+</body>
+
+</html>
